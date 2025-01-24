@@ -1,0 +1,32 @@
+{% extends 'tracker/home.html' %}
+
+{% block content %}
+<h1>Food Group Distribution</h1>
+
+<div>
+    {% for period, distribution in all_distributions.items %}
+        <h2>Distribution for {{ period }}</h2>
+        <canvas id="chart-{{ period }}"></canvas>
+        <script>
+            const data{{ period }} = {
+                labels: ['Carbohydrates', 'Proteins', 'Vitamins'],
+                datasets: [{
+                    label: 'Food Group Distribution ({{ period }})',
+                    data: [
+                        {{ distribution.Carbohydrates }},
+                        {{ distribution.Proteins }},
+                        {{ distribution.Vitamins }}
+                    ],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                }]
+            };
+
+            const ctx{{ period }} = document.getElementById('chart-{{ period }}').getContext('2d');
+            new Chart(ctx{{ period }}, {
+                type: 'pie',
+                data: data{{ period }},
+            });
+        </script>
+    {% endfor %}
+</div>
+{% endblock %}

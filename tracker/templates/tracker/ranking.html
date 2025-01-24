@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - KidsFit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4caf50; /* Green header */
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .header-links {
+            text-align: right;
+            padding-right: 20px;
+        }
+        .header-links a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+        .user-ranking {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            color: #4caf50;
+            margin: 0 5px;
+            text-decoration: none;
+        }
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+        .current {
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>KidsFit - User Rankings</h1>
+        <p>Here are the rankings based on your balanced diet log.</p>
+        <div class="header-links">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <a href="{% url 'account_logout' %}" style="color: red;">Logout</a>
+            {% else %}
+                <a href="javascript:void(0);" onclick="openModal('loginModal')">Login</a>
+                <a href="javascript:void(0);" onclick="openModal('signupModal')">Sign Up</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <section>
+        <h2>User Rankings</h2>
+        <div>
+            {% for user in page_obj %}
+                <div class="user-ranking">
+                    <p><strong>{{ user.username }}:</strong> {{ user.balanced_diet_count }} Balanced Meals</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 KidsFit. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal Scripts -->
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal('loginModal');
+                closeModal('signupModal');
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% block content %}
+    <div class="result">
+        <h1>BMI Result</h1>
+        <p>To know is to plan ahead. Use this and plan your lifestyle accordingly.</p>
+        <p><strong>Gender:</strong> {{ gender }}</p>
+        <p><strong>Your BMI:</strong> {{ bmi }}</p>
+        <p><strong>BMI Category:</strong> {{ category }}</p>
+        <p>
+            <a href="{% url 'tracker:bmi_calculator' %}">Calculate Again</a>
+            <a href="{% url 'tracker:home' %}">Go Back</a>
+        </p>
+    </div>
+    {% endblock %}

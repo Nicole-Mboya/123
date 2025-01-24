@@ -1,0 +1,11 @@
+{% extends 'tracker/home.html' %}
+
+{% block content %}
+    <h1>Add Nutrition Log</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}  <!-- Render all form fields -->
+      <button type="submit">Save Log</button>
+    </form>
+    <a href="{% url 'home' %}">Back to Home</a>
+  {% endblock %}
